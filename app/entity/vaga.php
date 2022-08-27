@@ -36,5 +36,16 @@ class Vaga{
      * @var string
      */
     public $data;
+
+    /**
+     * metodo responsavel por cadastrar a vaga
+     * @return boolean
+     */
+
+    public function Cadastrar(){
+
+        $this->data = date("Y-m-d H:i:s");
+
+    } 
 }
 
