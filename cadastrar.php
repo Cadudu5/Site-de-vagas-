@@ -6,7 +6,7 @@ use \App\entity\Vaga;
 
 //Validação
 if(isset($_POST['titulo'],$_POST['descricao'], $_POST['ativo'])){
-    $obVaga = new vaga;
+    $obVaga = new Vaga();
     $obVaga->titulo = $_POST["titulo"];
     $obVaga->descricao = $_POST["descricao"];
     $obVaga->ativo = $_POST["ativo"];

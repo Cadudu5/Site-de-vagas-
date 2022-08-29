@@ -2,6 +2,8 @@
 
 namespace App\entity;
 
+use \App\db\Database;
+
 class Vaga{
 
     /**
@@ -43,9 +45,26 @@ class Vaga{
      */
 
     public function Cadastrar(){
-
+        
+        //Define a data
         $this->data = date("Y-m-d H:i:s");
+
+        //Insere a vaga no banco
+        $obDatabase = new Database("vagas");
+
+        //query builder
+        $obDatabase->insert([
+            
+            "titulo" => $this->titulo,
+            "descricao" => $this->descricao,
+            "ativo" => $this->ativo,
+            "data" => $this->data
+
+        ]);
+
 
     } 
 }
+
+?>
 

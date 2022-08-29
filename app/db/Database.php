@@ -2,8 +2,8 @@
 
 namespace App\db;
 
-use PDO;
-use PDOException;
+use \PDO;
+use \PDOException;
 
 class Database{
 
@@ -63,7 +63,7 @@ class Database{
      private function setConnection(){
 
         try {
-            $this->connection = new PDO("mySQL: host=".self::HOST.";dbname=".self::NAME,self::PASS,self::USER);
+            $this->connection = new PDO("mysql: host=".self::HOST.";dbname=".self::NAME,self::USER,self::PASS);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         } catch (PDOException $e) {
             /**
@@ -75,9 +75,29 @@ class Database{
         
      }
      
+
+     /**
+      * Método responsavel por inserir dados no banco
+      * @param array
+      * @return integer
+      */
+     public function insert($values){
+
+        //Dados da Query
+        $fields = array_keys($values);
+                            //cria um array, com o tanto de fields, se não tiver coloca "?"
+        $binds = array_pad([], count($fields), "?");
+
+        // Monta a query
+        // os (?,?,?,?) servem para deixar os dados mais seguros
+        $query = "INSERT INTO".$this->table." (".implode(",", $fields).") VALUES (".implode(",", $binds).")";
+        echo $query;
+        exit;
+
+     }
         
 }
 
-     
+
 
 
