@@ -56,6 +56,7 @@ class Database{
         $this->setConnection();
 
      }
+
       /**
        * metodo responsavel por criar uma 
        * conexão com o banco de dados
@@ -74,12 +75,37 @@ class Database{
         }
         
      }
-     
+
+    /**
+     * Executa as queries dentro do banco de dados
+     * @param string
+     * @param array
+     * @return PDOStatement
+     */
+     public function execute($query, $params){
+
+        try {
+            //verifica onde estão os binds a serem substituidos
+            $statement = $this->connection->prepare($query);
+            // valores com que os binds serão substituidos
+            $statement->execute($params);
+            return $statement; // aqui conseguimos os registros que forem retornados do banco
+        } catch (PDOException $e) {
+            /**
+             * Apenas para fins de teste, em uma 
+             * aplicação real o erro seria de uso interno.
+             */
+            die("ERROR: ".$e->getMessage());
+        }
+        
+     }
+
+
 
      /**
       * Método responsavel por inserir dados no banco
       * @param array
-      * @return integer
+      * @return integer ID inserido
       */
      public function insert($values){
 
@@ -90,10 +116,13 @@ class Database{
 
         // Monta a query
         // os (?,?,?,?) servem para deixar os dados mais seguros
-        $query = "INSERT INTO".$this->table." (".implode(",", $fields).") VALUES (".implode(",", $binds).")";
-        echo $query;
-        exit;
+        $query = "INSERT INTO ".$this->table." (".implode(",", $fields).") VALUES (".implode(",", $binds).")";
+        
+        // Executa o insert
+        $this->execute($query, array_values($values));
 
+        // retorna o ID inserido
+        return $this->connection->lastInsertId();
      }
         
 }

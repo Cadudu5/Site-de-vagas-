@@ -53,7 +53,7 @@ class Vaga{
         $obDatabase = new Database("vagas");
 
         //query builder
-        $obDatabase->insert([
+        $this->id = $obDatabase->insert([
             
             "titulo" => $this->titulo,
             "descricao" => $this->descricao,
@@ -62,6 +62,7 @@ class Vaga{
 
         ]);
 
+        echo "<pre>"; print_r($this); echo "</pre>"; exit;
 
     } 
 }
